@@ -9,9 +9,29 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SolutionItems", "SolutionIt
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{813F21A3-8051-41CD-9258-93396DF2B63D}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{BCD2B912-FF00-45DB-89AC-7820FD85C860}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "BuildingBlocks", "BuildingBlocks", "{21A96389-4C87-468D-9EAC-6BE1ED44CD26}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Identity", "Identity", "{4390D785-69FB-443E-8D48-B5CD5283DFA5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OctoJourney.Identity.Api", "src\Services\Identity\OctoJourney.Identity.Api\OctoJourney.Identity.Api.csproj", "{2E94A136-8C7D-405C-9FC1-F1BB2C21F3AB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{BCD2B912-FF00-45DB-89AC-7820FD85C860} = {813F21A3-8051-41CD-9258-93396DF2B63D}
+		{21A96389-4C87-468D-9EAC-6BE1ED44CD26} = {813F21A3-8051-41CD-9258-93396DF2B63D}
+		{4390D785-69FB-443E-8D48-B5CD5283DFA5} = {BCD2B912-FF00-45DB-89AC-7820FD85C860}
+		{2E94A136-8C7D-405C-9FC1-F1BB2C21F3AB} = {4390D785-69FB-443E-8D48-B5CD5283DFA5}
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{2E94A136-8C7D-405C-9FC1-F1BB2C21F3AB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2E94A136-8C7D-405C-9FC1-F1BB2C21F3AB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2E94A136-8C7D-405C-9FC1-F1BB2C21F3AB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2E94A136-8C7D-405C-9FC1-F1BB2C21F3AB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
