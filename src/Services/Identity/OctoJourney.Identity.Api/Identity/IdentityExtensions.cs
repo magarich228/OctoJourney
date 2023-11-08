@@ -8,7 +8,9 @@ public static class IdentityExtensions
 {
     public static async Task<IApplicationBuilder> InitializeIdentityServerDb(this IApplicationBuilder app)
     {
-        using var serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope();
+        using var serviceScope = app.ApplicationServices
+            .GetRequiredService<IServiceScopeFactory>()
+            .CreateScope();
         await using var configurationContext = serviceScope.ServiceProvider.GetRequiredService<ConfigurationDbContext>();
         await using var persistedGrantsContext = serviceScope.ServiceProvider.GetRequiredService<PersistedGrantDbContext>();
 
