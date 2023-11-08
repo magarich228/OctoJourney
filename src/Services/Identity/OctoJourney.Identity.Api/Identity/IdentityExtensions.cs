@@ -6,6 +6,12 @@ namespace OctoJourney.Identity.Api.Identity;
 
 public static class IdentityExtensions
 {
+    /// <summary>
+    /// Проводит миграции и инициализирует БД недостающими
+    /// данными конфигурации Identity Server из памяти.
+    /// </summary>
+    /// <param name="app"></param>
+    /// <returns></returns>
     public static async Task<IApplicationBuilder> InitializeIdentityServerDb(this IApplicationBuilder app)
     {
         using var serviceScope = app.ApplicationServices
@@ -17,25 +23,24 @@ public static class IdentityExtensions
         await configurationContext.Database.MigrateAsync();
         await persistedGrantsContext.Database.MigrateAsync();
 
-        if (!await configurationContext.Clients.AnyAsync())
-        {
-            var clients = IdentityConfiguration.Clients.Select(c => c.ToEntity());
-            
-            await configurationContext.Clients
-                .AddRangeAsync(clients);
-        }
+        var clients = IdentityConfiguration.Clients.Select(c => c.ToEntity());
+        var apiScopes = IdentityConfiguration.ApiScopes.Select(a => a.ToEntity());
+        var identityResources = IdentityConfiguration.IdentityResources.Select(i => i.ToEntity());
+        
+        // ReSharper disable AccessToDisposedClosure
+        var clientsDiff = clients.Except(configurationContext.Clients).
+            Where(c => configurationContext.Clients.FirstOrDefault(cl => cl.ClientId.Equals(c.ClientId)) is null);
 
-        if (!await configurationContext.ApiScopes.AnyAsync())
-        {
-            await configurationContext.ApiScopes
-                .AddRangeAsync(IdentityConfiguration.ApiScopes.Select(c => c.ToEntity()));
-        }
+        var apiScopesDiff = apiScopes.Except(configurationContext.ApiScopes).
+            Where(a => configurationContext.ApiScopes.FirstOrDefault(ap => ap.Name.Equals(a.Name)) is null);
 
-        if (!await configurationContext.IdentityResources.AnyAsync())
-        {
-            await configurationContext.IdentityResources
-                .AddRangeAsync(IdentityConfiguration.IdentityResources.Select(c => c.ToEntity()));
-        }
+        var identityResourcesDiff = identityResources.Except(configurationContext.IdentityResources).
+            Where(i => configurationContext.IdentityResources.FirstOrDefault(ir => ir.Name.Equals(i.Name)) is null);
+        // ReSharper restore AccessToDisposedClosure
+        
+        await configurationContext.Clients.AddRangeAsync(clientsDiff);
+        await configurationContext.ApiScopes.AddRangeAsync(apiScopesDiff);
+        await configurationContext.IdentityResources.AddRangeAsync(identityResourcesDiff);
 
         await configurationContext.SaveChangesAsync();
         
