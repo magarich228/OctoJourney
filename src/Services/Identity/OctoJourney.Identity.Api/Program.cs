@@ -29,8 +29,6 @@ services.AddIdentityServer()
                 sql => sql.MigrationsAssembly(migrationAssemblyName));
     }).AddDeveloperSigningCredential();
 
-
-
 services.AddControllers();
 
 services.AddEndpointsApiExplorer();

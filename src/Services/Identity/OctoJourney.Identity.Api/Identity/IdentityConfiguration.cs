@@ -10,7 +10,6 @@ public static class IdentityConfiguration
         {
             new IdentityResources.Profile(),
             new IdentityResources.Email(),
-            new IdentityResources.Email(),
             new IdentityResources.OpenId()
         };
     
