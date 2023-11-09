@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Rewrite;
 using Microsoft.EntityFrameworkCore;
 using OctoJourney.Identity.Api;
@@ -29,7 +30,10 @@ services.AddIdentityServer()
                 sql => sql.MigrationsAssembly(migrationAssemblyName));
     }).AddDeveloperSigningCredential();
 
-services.AddControllers();
+services.AddControllersWithViews(options =>
+{
+    options.Filters.Add<ValidateAntiForgeryTokenAttribute>();
+});
 
 services.AddEndpointsApiExplorer();
 services.AddSwaggerGen();
@@ -48,10 +52,8 @@ if (app.Environment.IsDevelopment())
     app.UseRewriter(option);
 }
 
-app.UseHttpsRedirection();
-
-app.UseAuthorization();
 app.UseIdentityServer();
+app.UseAuthorization();
 
 app.MapControllers();
 
